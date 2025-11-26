@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { busData, BusRoute } from '../../data/busData';
 import QR from '../../images/QR.png';
 import LoaderOverlay from '../LoaderOverlay';
@@ -288,9 +289,12 @@ export const BusPassForm: React.FC<BusPassFormProps> = ({ title, formType, depar
     <div style={containerStyle}>
       <LoaderOverlay show={submitting} message="Submitting…" fullscreen />
       <div style={cardStyle}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 10 }}>
-          <img width={50} height={50} src="https://cdn-icons-png.flaticon.com/128/18042/18042017.png" alt="bus" style={{ filter: 'brightness(0) invert(1)' }} />
-          <h2 style={{ color: '#f5f6f7', margin: 0 }}>{title}</h2>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <img width={50} height={50} src="https://cdn-icons-png.flaticon.com/128/18042/18042017.png" alt="bus" style={{ filter: 'brightness(0) invert(1)' }} />
+            <h2 style={{ color: '#f5f6f7', margin: 0 }}>{title}</h2>
+          </div>
+          <Link to="/Dashboard" style={{ textDecoration: 'none', background: 'rgba(255,255,255,0.2)', color: '#fff', padding: '8px 16px', borderRadius: 6, fontWeight: 600 }}>Home</Link>
         </div>
 
         <div style={tabNavStyle}>
@@ -303,13 +307,13 @@ export const BusPassForm: React.FC<BusPassFormProps> = ({ title, formType, depar
         {currentTab === 'student' && (
           <div>
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="date">Date:</label>
+              <label style={labelStyle} htmlFor="date">Date: <span style={{ color: 'red' }}>*</span></label>
               <input style={inputStyle} type="date" id="date" value={date} onChange={e => setDate(e.target.value)} />
               {errors.date && <div style={errorText}>{errors.date}</div>}
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="academicYear">Academic Year:</label>
+              <label style={labelStyle} htmlFor="academicYear">Academic Year: <span style={{ color: 'red' }}>*</span></label>
               <select style={inputStyle} id="academicYear" value={academicYear} onChange={e => setAcademicYear(e.target.value)}>
                 <option value="" disabled>Select Academic Year</option>
                 {academicYearOptions.map(y => (
@@ -320,31 +324,31 @@ export const BusPassForm: React.FC<BusPassFormProps> = ({ title, formType, depar
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="studentId">Student Id: (Unique)</label>
+              <label style={labelStyle} htmlFor="studentId">Student Id: (Unique) <span style={{ color: 'red' }}>*</span></label>
               <input style={inputStyle} type="text" id="studentId" value={studentId} onChange={e => setStudentId(e.target.value)} />
               {errors.studentId && <div style={errorText}>{errors.studentId}</div>}
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="studentName">Student Name:</label>
+              <label style={labelStyle} htmlFor="studentName">Student Name: <span style={{ color: 'red' }}>*</span></label>
               <input style={inputStyle} type="text" id="studentName" value={studentName} onChange={e => setStudentName(e.target.value)} />
               {errors.studentName && <div style={errorText}>{errors.studentName}</div>}
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="mobileNo">Mobile No: (Only 10 digits)</label>
+              <label style={labelStyle} htmlFor="mobileNo">Mobile No: (Only 10 digits) <span style={{ color: 'red' }}>*</span></label>
               <input style={inputStyle} type="number" id="mobileNo" value={mobileNo} onChange={e => setMobileNo(e.target.value)} />
               {errors.mobileNo && <div style={errorText}>{errors.mobileNo}</div>}
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="EmailId">Email Id:</label>
+              <label style={labelStyle} htmlFor="EmailId">Email Id: <span style={{ color: 'red' }}>*</span></label>
               <input style={inputStyle} type="text" id="EmailId" value={EmailId} onChange={e => setEmailId(e.target.value)} />
               {errors.EmailId && <div style={errorText}>{errors.EmailId}</div>}
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="department">Department:</label>
+              <label style={labelStyle} htmlFor="department">Department: <span style={{ color: 'red' }}>*</span></label>
               <select style={inputStyle} id="department" value={department} onChange={e => setDepartment(e.target.value)}>
                 <option value="" disabled>Select Department</option>
                 {departmentOptions.map(opt => (
@@ -355,7 +359,7 @@ export const BusPassForm: React.FC<BusPassFormProps> = ({ title, formType, depar
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="class">Class:</label>
+              <label style={labelStyle} htmlFor="class">Class: <span style={{ color: 'red' }}>*</span></label>
               <select style={inputStyle} id="class" value={classSelect} onChange={e => setClassSelect(e.target.value)}>
                 <option value="" disabled>Select Class</option>
                 {yearOptions.map(y => (
@@ -366,7 +370,7 @@ export const BusPassForm: React.FC<BusPassFormProps> = ({ title, formType, depar
             </div>
 
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="semester">Semester:</label>
+              <label style={labelStyle} htmlFor="semester">Semester: <span style={{ color: 'red' }}>*</span></label>
               <select style={inputStyle} id="semester" value={semester} onChange={e => setSemester(e.target.value)}>
                 <option value="" disabled>Select Semester</option>
                 <option value="1">1</option>
@@ -385,7 +389,7 @@ export const BusPassForm: React.FC<BusPassFormProps> = ({ title, formType, depar
         {currentTab === 'bus' && (
           <div>
             <div style={rowStyle}>
-              <label style={labelStyle} htmlFor="busRoute">Select Bus Name:</label>
+              <label style={labelStyle} htmlFor="busRoute">Select Bus Name: <span style={{ color: 'red' }}>*</span></label>
               <select style={inputStyle} id="busRoute" value={busRoute} onChange={e => { setBusRoute(e.target.value); setRouteTo(''); }}>
                 <option value="" disabled>Select Bus Route</option>
                 {busData.map(b => <option key={b.name} value={b.name}>{b.name.toUpperCase()}</option>)}
