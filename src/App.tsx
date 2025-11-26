@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Login from './components/Login';
 import ForgotPassword from './components/ForgotPassword';
 import Dashboard from './components/Dashboard';
@@ -9,6 +9,8 @@ import PharmacyForm from './components/forms/PharmacyForm';
 import ITIForm from './components/forms/ITIForm';
 import RouteDetails from './components/RouteDetails';
 import LoaderOverlay from './components/LoaderOverlay';
+import LostFound from './components/LostFound';
+import Chatbot from './components/Chatbot';
 
 
 // Auth Context to manage login state
@@ -27,15 +29,36 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return isAuthenticated ? <>{children}</> : <Navigate to="/" replace />;
 };
 
+// Route Loader Component
+const RouteLoader: React.FC = () => {
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, [location]);
+
+  return <LoaderOverlay show={loading} message="Loading..." fullscreen />;
+};
+
 // Remove inline dummy Dashboard. Using real Dashboard component.
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('auth') === 'true';
+  });
   const [appLoading, setAppLoading] = useState(true);
 
-  // Fake login/logout functions
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+  const login = () => {
+    localStorage.setItem('auth', 'true');
+    setIsAuthenticated(true);
+  };
+  const logout = () => {
+    localStorage.removeItem('auth');
+    setIsAuthenticated(false);
+  };
 
   const authValue: AuthContextType = {
     isAuthenticated,
@@ -52,6 +75,8 @@ const App: React.FC = () => {
     <AuthContext.Provider value={authValue}>
       <LoaderOverlay show={appLoading} message="Starting…" fullscreen />
       <Router>
+        <RouteLoader />
+        {isAuthenticated && <Chatbot />}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route
@@ -102,7 +127,15 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* ✅ Real page added */}
+          <Route
+            path="/lost-found"
+            element={
+              <ProtectedRoute>
+                <LostFound />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </Router>
     </AuthContext.Provider>

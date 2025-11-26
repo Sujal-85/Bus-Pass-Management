@@ -20,7 +20,7 @@ const styles: Record<string, React.CSSProperties> = {
   cardTitle: { margin: 0, fontSize: 16, fontWeight: 700, color: '#0f172a' },
   cardBody: { padding: 16 },
   select: { padding: '8px 10px', borderRadius: 8, border: '1px solid #dce3ea', background: '#fff' },
-  pillRow: { display: 'flex', gap: 8, overflowX: 'auto' as const, paddingBottom: 6 },
+  pillRow: { display: 'flex', gap: 8, overflowX: 'auto' as const, paddingBottom: 6, whiteSpace: 'nowrap' as const },
   pill: { padding: '6px 10px', border: '1px solid #e2e8f0', borderRadius: 999, background: '#f8fafc', color: '#0e3e78', textDecoration: 'none', whiteSpace: 'nowrap' as const },
   actionsRow: { display: 'flex', gap: 8, flexWrap: 'wrap' as const, marginTop: 12 },
   btnPrimary: { padding: '8px 12px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer' },
@@ -125,11 +125,11 @@ const RouteDetails: React.FC = () => {
               <span style={{ color: '#64748b' }}>{route.stops.length} total</span>
             </div>
             <div style={styles.cardBody}>
-              <div style={styles.pillRow}>
+              {/* <div className="hide-scrollbar" style={styles.pillRow}>
                 {route.stops.map(s => (
                   <a key={s.name} href={googleMapsUrl(s.name)} target="_blank" rel="noreferrer" style={styles.pill}>{s.name.toUpperCase()}</a>
                 ))}
-              </div>
+              </div> */}
               <div style={{ marginTop: 12 }}>
                 <table style={styles.table}>
                   <thead>
